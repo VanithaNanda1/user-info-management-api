@@ -8,7 +8,13 @@ This project is using Java 17 .  Install Java 17 before clone the project
 1. Clone the repository
 2. Import the project to VS Code or STS
 3. Run mvn clean install to build the project
-4. Run the project as Spring boot application. Application will run on http://localhost:8080/user-management
+4. Run the project as Spring boot application.
+   
+Application will run on http://localhost:8080/user-management
+
+H2 console can viewed at http://localhost:8080/user-management/h2-console
+
+Swagger url : http://localhost:8080/user-management/swagger-ui/index.html
 
 # Steps to test the application
 
