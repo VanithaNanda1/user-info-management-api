@@ -17,4 +17,9 @@ This project is using Java 17 .  Install Java 17 before clone the project
 3. You can also test the application methods using postman
 4. Swagger will provide the multiple operations
    
+# Test flow
+ 1. Expand registerUser operation and click on tryout. Provide user details. (images are optional and pass as null). This is will create user and retun the user id
+ 2. uploadImage - since Im using multipart file  , there is a file size limit. please upload small size for testing. you can run operation multiple times to upload. UploadImage operation provides Image details in response (Please save detail to test the other operations)
+ 3. associateImages - pass the user id recieved in step 1 and image details recieved in steps 2 to associate the images with user profile
+ 4. viewUserInfoWithImages - Pass the userid and you will recieve user information along with images 
    
