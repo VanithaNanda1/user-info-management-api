@@ -21,13 +21,9 @@ import com.synchrony.userinfomanagement.entity.UserInformation;
 import com.synchrony.userinfomanagement.entity.UserProfile;
 import com.synchrony.userinfomanagement.entity.UserRegistration;
 import com.synchrony.userinfomanagement.exception.NoDetailsFoundException;
-import com.synchrony.userinfomanagement.repository.UserInformationRepository;
 import com.synchrony.userinfomanagement.repository.UserProfileRepository;
 import com.synchrony.userinfomanagement.repository.UserRegistrationRepository;
-import com.synchrony.userinfomanagement.service.ImageService;
 import com.synchrony.userinfomanagement.service.UserManagementService;
-
-import jakarta.persistence.EntityNotFoundException;
 
 class UserManagementServiceTest {
 
@@ -35,9 +31,6 @@ class UserManagementServiceTest {
 
 	@Mock
 	private UserRegistrationRepository userRegistrationRepository;
-
-	@Mock
-	private UserInformationRepository userInformationRepository;
 
 	@Mock
 	private UserProfileRepository userProfileRepository;
@@ -48,7 +41,6 @@ class UserManagementServiceTest {
 		MockitoAnnotations.openMocks(this);
 		userManagementService = new UserManagementService();
 		ReflectionTestUtils.setField(userManagementService, "userRegistrationRepository", userRegistrationRepository);
-		ReflectionTestUtils.setField(userManagementService, "userInformationRepository", userInformationRepository);
 		ReflectionTestUtils.setField(userManagementService, "userProfileRepository", userProfileRepository);
 		
 	}
@@ -58,8 +50,6 @@ class UserManagementServiceTest {
 		UserRegistration userRegistration = new UserRegistration();
 		userRegistration.setUserId(1L);
 		userRegistration.setUserName("John");
-		//userRegistration.setLastName("Doe");
-		//userRegistration.setEmail("johndoe@example.com");
 		userRegistration.setPassword("password");
 
 		Mockito.when(userRegistrationRepository.save(userRegistration)).thenReturn(userRegistration);
@@ -70,21 +60,6 @@ class UserManagementServiceTest {
 		assertEquals(1L, userId);
 	}
 
-	@Test
-	void testGetUserDetails() {
-		UserInformation userInformation = new UserInformation();
-		userInformation.setAddress("123 Main St");
-		userInformation.setCity("Anytown");
-		userInformation.setState("CA");
-		userInformation.setZipCode("12345");
-
-		Mockito.when(userInformationRepository.getById(1L)).thenReturn(userInformation);
-
-		UserInformation result = userManagementService.getUserDetails(1L);
-
-		assertNotNull(result);
-		assertEquals(userInformation, result);
-	}
 
 	@Test
 	void testGetUserRegistrationDetails() {
@@ -157,15 +132,6 @@ class UserManagementServiceTest {
 		assertNotNull(result);
 		assertEquals(userProfile, result);
 		assertEquals(images, result.getImages());
-	}
-
-	@Test
-	void testGetUserDetailsWithInvalidUserId() {
-		Mockito.when(userInformationRepository.getById(1L)).thenThrow(new EntityNotFoundException());
-
-		assertThrows(EntityNotFoundException.class, () -> {
-			userManagementService.getUserDetails(1L);
-		});
 	}
 
 

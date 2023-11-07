@@ -2,20 +2,16 @@ package com.synchrony.userinfomanagement.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.synchrony.userinfomanagement.entity.Image;
-import com.synchrony.userinfomanagement.entity.UserInformation;
 import com.synchrony.userinfomanagement.entity.UserProfile;
 import com.synchrony.userinfomanagement.entity.UserRegistration;
 import com.synchrony.userinfomanagement.exception.NoDetailsFoundException;
-import com.synchrony.userinfomanagement.repository.UserInformationRepository;
 import com.synchrony.userinfomanagement.repository.UserProfileRepository;
 import com.synchrony.userinfomanagement.repository.UserRegistrationRepository;
 
@@ -31,9 +27,6 @@ import com.synchrony.userinfomanagement.repository.UserRegistrationRepository;
 	private UserRegistrationRepository userRegistrationRepository;
 	
 	@Autowired
-	private UserInformationRepository userInformationRepository;
-	
-	@Autowired
 	private UserProfileRepository userProfileRepository;
 	
 	/**
@@ -46,16 +39,6 @@ import com.synchrony.userinfomanagement.repository.UserRegistrationRepository;
 		return userRegistrationResponse.getUserId();
 	}
 	
-	/**
-	 * Retrieves user information for the given user ID.
-	 * @param userId The user ID for which to retrieve user information.
-	 * @return The user information for the given user ID.
-	 */
-	public UserInformation getUserDetails(Long userId) {
-		UserInformation userInformation= userInformationRepository.getById(userId);
-		return userInformation;
-	}
-
 	/**
 	 * Retrieves user registration details for the given user ID.
 	 * @param userId The user ID for which to retrieve user registration details.
@@ -73,7 +56,11 @@ import com.synchrony.userinfomanagement.repository.UserRegistrationRepository;
 	 */
 	public UserProfile retreiveUserProfile(long userId) {
 
-		return userProfileRepository.findById(userId).orElseThrow();
+		try {
+			return userProfileRepository.findById(userId).orElseThrow();
+		} catch (NoSuchElementException ex) {
+			throw new NoDetailsFoundException("User profile not found for user ID: " + userId);
+		}
 
 		
 	}
@@ -95,7 +82,12 @@ import com.synchrony.userinfomanagement.repository.UserRegistrationRepository;
 	 */
 	public UserProfile associateUserProfileWithImages(List<Image> images, Long userId) {
 		
-		UserProfile userProfile=  userProfileRepository.findById(userId).orElseThrow();
+		UserProfile userProfile= null;
+		try {
+			userProfile=  userProfileRepository.findById(userId).orElseThrow();
+		} catch (NoSuchElementException ex) {
+			throw new NoDetailsFoundException("User profile not found for user ID: " + userId);
+		}
 		userProfile.setImages(images);
 		
 		userProfileRepository.save(userProfile);

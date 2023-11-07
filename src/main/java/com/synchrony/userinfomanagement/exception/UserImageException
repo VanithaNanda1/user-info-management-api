@@ -1,5 +1,0 @@
-public class UserImageException extends Exception{
-    public UserImageException(String exceptionMessage) {
-        super(exceptionMessage);
-    }
-}
