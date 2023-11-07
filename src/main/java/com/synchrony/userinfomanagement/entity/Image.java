@@ -13,49 +13,53 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "user_image")
-public class Image implements Serializable{
-	
+public class Image implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonIgnore
-	private Long ImageId;
-	
+	@JsonProperty("userImageId")
+	private long userImageId;
+
 	@JsonProperty("id")
-	private String Id;
-	
+	private String id;
+
 	@JsonProperty("link")
 	private String imageUrl;
 	@JsonProperty("deletehash")
 	private String deletehash;
-	
-	public Long getImageId() {
-		return ImageId;
+
+	public Long getUserImageId() {
+		return userImageId;
 	}
-	public void setImageId(Long imageId) {
-		ImageId = imageId;
+
+	public void setUserImageId(Long userImageId) {
+		this.userImageId = userImageId;
 	}
-	
+
 	public String getId() {
-		return Id;
+		return id;
 	}
+
 	public void setId(String id) {
-		Id = id;
+		this.id = id;
 	}
+
 	public String getImageUrl() {
 		return imageUrl;
 	}
+
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+
 	public String getDeletehash() {
 		return deletehash;
 	}
+
 	public void setDeletehash(String deletehash) {
 		this.deletehash = deletehash;
 	}
-	public void setId(long l) {
-	}
 
-	
 }
