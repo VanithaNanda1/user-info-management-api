@@ -99,18 +99,6 @@ class UserManagementServiceTest {
 	}
 
 	@Test
-	void testAssociateUserProfileWithImages() {
-		UserProfile userProfile = getUserInformation();
-
-		Mockito.when(userProfileRepository.save(userProfile)).thenReturn(userProfile);
-
-		UserProfile result = userManagementService.associateUserProfileWithImages(userProfile);
-
-		assertNotNull(result);
-		assertEquals(userProfile, result);
-	}
-
-	@Test
 	void testAssociateUserProfileWithImagesWithUserId() {
 	UserProfile userProfile = getUserInformation();
 

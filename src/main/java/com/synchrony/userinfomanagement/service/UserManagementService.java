@@ -59,19 +59,11 @@ import com.synchrony.userinfomanagement.repository.UserRegistrationRepository;
 		try {
 			return userProfileRepository.findById(userId).orElseThrow();
 		} catch (NoSuchElementException ex) {
+			logger.error("User profile not found for user ID: {}", userId);
 			throw new NoDetailsFoundException("User profile not found for user ID: " + userId);
 		}
 
 		
-	}
-
-	/**
-	 * Associates user profile with images.
-	 * @param userProfile The user profile to associate with images.
-	 * @return The updated user profile.
-	 */
-	public UserProfile associateUserProfileWithImages(UserProfile userProfile) {
-		return userProfileRepository.save(userProfile);
 	}
 
 	/**
@@ -86,6 +78,7 @@ import com.synchrony.userinfomanagement.repository.UserRegistrationRepository;
 		try {
 			userProfile=  userProfileRepository.findById(userId).orElseThrow();
 		} catch (NoSuchElementException ex) {
+			logger.error("User profile not found for user ID: {}", userId);
 			throw new NoDetailsFoundException("User profile not found for user ID: " + userId);
 		}
 		userProfile.setImages(images);
